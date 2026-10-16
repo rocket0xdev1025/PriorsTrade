@@ -207,103 +207,6 @@ function paintWallet() {
   });
 }
 
-function drawBonsai(canvas) {
-  const ctx = canvas.getContext("2d");
-  let rot = 0.7;
-  let drag = null;
-  const cubes = [];
-  const seen = new Set();
-  const push = (x, y, z, color) => {
-    const key = x + "," + y + "," + z;
-    if (seen.has(key)) return;
-    seen.add(key);
-    cubes.push({ x, y, z, color });
-  };
-  const box = (x0, x1, y0, y1, z0, z1, color) => {
-    for (let x = x0; x <= x1; x++) for (let y = y0; y <= y1; y++) for (let z = z0; z <= z1; z++) push(x, y, z, color);
-  };
-  const ball = (cx, cy, cz, r, color) => {
-    const R = Math.ceil(r);
-    for (let x = -R; x <= R; x++) for (let y = -R; y <= R; y++) for (let z = -R; z <= R; z++) {
-      const d = Math.hypot(x * 1.05, y * 0.92, z);
-      if (d <= r) push(cx + x, cy + y, cz + z, color);
-    }
-  };
-  box(-4, 4, 0, 0, -3, 3, "#1b1a16");
-  box(-3, 3, 1, 2, -2, 2, "#24221e");
-  box(-4, 4, 3, 3, -3, 3, "#1b1a16");
-  box(0, 0, 4, 9, 0, 0, "#a9432c");
-  box(1, 2, 7, 7, 0, 0, "#8d3824");
-  box(-2, -1, 8, 8, 0, 0, "#a9432c");
-  box(0, 0, 8, 8, 1, 2, "#8d3824");
-  ball(0, 12, 0, 4.1, "#2f6b4f");
-  ball(-2, 13, 1, 2.6, "#276246");
-  ball(2, 11, -1, 2.4, "#3f8a67");
-  ball(1, 14, 0, 1.8, "#347a58");
-  ball(-1, 10, 1, 1.7, "#2f6b4f");
-  [[3, 14, 0], [-3, 13, 1], [0, 16, 0], [2, 15, 1], [-2, 15, -1], [4, 12, 0], [-4, 12, 0], [1, 12, 3], [0, 11, -3], [-1, 14, 2]].forEach(([x, y, z]) => push(x, y, z, "#84c49f"));
-
-  const shade = (hex, f) => {
-    const n = parseInt(hex.slice(1), 16);
-    const ch = (s) => Math.max(0, Math.min(255, Math.round(((n >> s) & 255) * f)));
-    return `rgb(${ch(16)},${ch(8)},${ch(0)})`;
-  };
-
-  function resize() {
-    const r = canvas.getBoundingClientRect();
-    const dpr = Math.min(2, devicePixelRatio || 1);
-    canvas.width = Math.max(1, r.width * dpr);
-    canvas.height = Math.max(1, r.height * dpr);
-  }
-  resize();
-  addEventListener("resize", resize);
-
-  function project(x, y, z) {
-    const c = Math.cos(rot), s = Math.sin(rot);
-    const rx = x * c - z * s;
-    const rz = x * s + z * c;
-    return { sx: (rx - rz), sy: (rx + rz) * 0.52 - y, depth: rx + rz + y * 0.01 };
-  }
-
-  function frame() {
-    const w = canvas.width, h = canvas.height;
-    ctx.clearRect(0, 0, w, h);
-    const scale = Math.min(w, h) / 22;
-    const ox = w * 0.56, oy = h * 0.78;
-    const order = cubes.map((cube, i) => ({ i, d: project(cube.x, cube.y, cube.z).depth })).sort((a, b) => a.d - b.d);
-    order.forEach(({ i }) => {
-      const cube = cubes[i];
-      const s = 0.92;
-      const corners = [
-        [0, 0, 0], [s, 0, 0], [s, 0, s], [0, 0, s],
-        [0, s, 0], [s, s, 0], [s, s, s], [0, s, s]
-      ].map(([dx, dy, dz]) => {
-        const p = project(cube.x + dx - 0.46, cube.y + dy, cube.z + dz - 0.46);
-        return [ox + p.sx * scale, oy + p.sy * scale];
-      });
-      const face = (ids, f) => {
-        ctx.beginPath();
-        ids.forEach((id, n) => n ? ctx.lineTo(corners[id][0], corners[id][1]) : ctx.moveTo(corners[id][0], corners[id][1]));
-        ctx.closePath();
-        ctx.fillStyle = shade(cube.color, f);
-        ctx.fill();
-      };
-      face([0, 1, 2, 3], 0.72);
-      face([4, 5, 6, 7], 1);
-      face([0, 1, 5, 4], 0.84);
-      face([1, 2, 6, 5], 0.62);
-    });
-    if (!drag) rot += 0.003;
-    requestAnimationFrame(frame);
-  }
-  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(frame);
-  else { rot = 0.7; requestAnimationFrame(frame); }
-
-  canvas.addEventListener("pointerdown", (e) => { drag = e.clientX; canvas.setPointerCapture(e.pointerId); });
-  canvas.addEventListener("pointerup", () => { drag = null; });
-  canvas.addEventListener("pointermove", (e) => { if (drag == null) return; rot += (e.clientX - drag) * 0.01; drag = e.clientX; });
-}
-
 function bootStats() {
   const repaid = AGENTS.reduce((s, a) => s + a.repaid, 0);
   const loans = AGENTS.reduce((s, a) => s + a.loans, 0);
@@ -327,8 +230,6 @@ function bootStats() {
     const el = document.getElementById(id);
     if (el) el.textContent = text;
   });
-  const leaf = document.getElementById("leafcount");
-  if (leaf) leaf.textContent = repaid.toLocaleString("en-US") + " repayments";
 }
 
 function bootAgent() {
@@ -367,6 +268,7 @@ themeBtn.addEventListener("click", () => {
   else document.documentElement.dataset.theme = "dark";
   localStorage.setItem("priors-theme", dark ? "light" : "dark");
   syncTheme();
+  dispatchEvent(new Event("priors:theme"));
 });
 
 document.querySelector(".menu-btn").addEventListener("click", (e) => {
@@ -441,9 +343,6 @@ document.querySelectorAll("[data-filter]").forEach((btn) => {
     renderUpdates(btn.dataset.filter);
   });
 });
-
-const canvas = document.getElementById("bonsai");
-if (canvas) drawBonsai(canvas);
 
 window.AGENTS = AGENTS;
 window.LOANS = LOANS;
