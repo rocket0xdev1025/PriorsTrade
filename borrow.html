@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Priors · borrow against your stocks</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="borrow">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="kicker">Stock lines</p>
+      <h1>Borrow USDG against <em>your stock tokens.</em></h1>
+      <p class="lede">Hold Robinhood stock tokens on Robinhood Chain? Deposit them and borrow USDG against them, without selling. Repay on time and the vault sends them back. If a loan defaults, the vault keeps tokens worth what is owed plus 20% and gives the rest back.</p>
+      <div class="actions">
+        <a class="btn primary" href="stocks.html">Open a stock line</a>
+        <a class="link" href="#tokens">See the tokens →</a>
+      </div>
+      <p class="note">Sample token list for this preview. The live site reads the vault. Not available to persons of the US, the UK, Canada, Switzerland, or other restricted countries.</p>
+    </div>
+    <figure class="bw-art">
+      <div class="bw-tiles" id="bw-tiles" aria-hidden="true"></div>
+      <figcaption><b id="bw-art-count">Reading the stock vault…</b><span>The tokens it takes, each with the share of its value you can borrow.</span></figcaption>
+    </figure>
+  </div>
+</section>
+<div class="account">
+  <div class="wrap">
+    <div class="cell"><div class="k">Loan-to-value</div><div class="v">25–70%</div><div class="s">set for each token</div></div>
+    <div class="cell"><div class="k">Line limit</div><div class="v">$500</div><div class="s">per line</div></div>
+    <div class="cell"><div class="k">Fee</div><div class="v">1%</div><div class="s">per 30 days, fixed when you borrow</div></div>
+    <div class="cell"><div class="k">Open for new loans</div><div class="v good" id="bw-open">—</div><div class="s">tokens in this preview</div></div>
+  </div>
+</div>
+<div class="wrap source">Sample quotes, not a live price feed.</div>
+<section class="chapter" id="how">
+  <div class="wrap">
+    <div class="chead"><div class="no">No. 1</div><div><h2>How, in three steps</h2><p>Deposit, draw, and repay. The tokens stay yours if you repay on time.</p></div></div>
+    <div class="howto">
+      <div class="diagram" aria-hidden="true">
+        <svg viewBox="0 0 290 420" fill="none" stroke-width="1.2">
+          <g data-step="1" class="on"><rect class="box" x="30" y="16" width="200" height="74"/><text class="t1" x="130" y="46" text-anchor="middle">your tokens</text><text class="t2" x="130" y="70" text-anchor="middle">Robinhood stock tokens</text><path class="ar" d="M130 90 V166"/><path class="hd" d="M124 160 L130 170 L136 160"/><text class="lb" x="142" y="134">deposit</text></g>
+          <g data-step="2"><rect class="box" x="30" y="172" width="200" height="74"/><text class="t1" x="130" y="202" text-anchor="middle">the stock vault</text><text class="t2" x="130" y="226" text-anchor="middle">holds them, opens a line</text></g>
+          <g data-step="3"><rect class="box" x="30" y="328" width="200" height="74"/><text class="t1" x="130" y="358" text-anchor="middle">your wallet</text><text class="t2" x="130" y="382" text-anchor="middle">receives the USDG</text><path class="ar g" d="M150 250 V320"/><path class="hd g" d="M144 314 L150 324 L156 314"/><text class="lb g" x="162" y="290">repay, tokens return</text></g>
+        </svg>
+      </div>
+      <div>
+        <div class="stepl on" tabindex="0"><div class="n">i.</div><div><h3>Deposit</h3><p>Bring an accepted stock token and deposit it. The vault holds it and opens a USDG line of 25 to 70% of its value, at most $500.</p></div></div>
+        <div class="stepl" tabindex="0"><div class="n">ii.</div><div><h3>Borrow</h3><p>Borrow USDG up to the line, for 1 to 30 days, at 1% per 30 days, fixed when you borrow.</p></div></div>
+        <div class="stepl" tabindex="0"><div class="n">iii.</div><div><h3>Repay, take them back</h3><p>Repay the USDG plus the fee before it is due. Close the line and the vault sends the tokens back. A falling price does not sell them.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="chapter" id="tokens" style="padding-top:0">
+  <div class="wrap">
+    <div class="chead"><div class="no">No. 2</div><div><h2>The tokens it takes</h2><p>On the live site each value comes from a Chainlink feed on Robinhood Chain. These rows are a sample.</p></div></div>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Token</th><th>Name</th><th class="num">Value</th><th class="num">You can borrow</th><th>New loans</th></tr></thead>
+      <tbody id="bw-rows"></tbody>
+    </table></div>
+  </div>
+</section>
+<section class="chapter" id="cost" style="padding-top:0">
+  <div class="wrap">
+    <div class="chead"><div class="no">No. 3</div><div><h2>What it costs</h2><p>1% per 30 days of the term you pick, fixed when you borrow. No other fee in the examples below.</p></div></div>
+    <div class="tblwrap"><table>
+      <thead><tr><th>You deposit</th><th>Line</th><th>You borrow</th><th class="num">Fee</th><th class="num">You repay</th></tr></thead>
+      <tbody>
+        <tr><td>$500 of a 50% token</td><td>$250</td><td>$200 for 30 days</td><td class="num">$2.00</td><td class="num">$202.00</td></tr>
+        <tr><td>$400 of a 25% token</td><td>$100</td><td>$100 for 7 days</td><td class="num">$0.23</td><td class="num">$100.23</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+<section class="chapter" id="risks" style="padding-top:0">
+  <div class="wrap">
+    <div class="chead"><div class="no">No. 4</div><div><h2>The risks, plainly</h2><p>Read these before you deposit anything.</p></div></div>
+    <div class="risks">
+      <div class="risk"><h3>A default costs what you owe plus 20%</h3><p>After a grace period, anyone can mark the loan defaulted. The vault keeps tokens worth what is owed plus 20% and sends the rest back. If the price cannot be used that day, it keeps them all. A default also stops that account's agents from borrowing from the pool again.</p></div>
+      <div class="risk"><h3>The line is fixed when you open it</h3><p>If the stock falls, you can borrow less of the line. A loan already open is not called early. If the stock rises, you can borrow more, never above the line.</p></div>
+      <div class="risk"><h3>It is new</h3><p>The stock vault is experimental. Read the contracts before you trust them. At most $500 a line in this design, with a weekly cap on new lines.</p></div>
+    </div>
+    <div class="actions" style="margin-top:28px"><a class="btn primary" href="stocks.html">Open a stock line</a></div>
+  </div>
+</section>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+</body>
+</html>

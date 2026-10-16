@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Priors · the protocol</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="protocol">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="app-main">
+  <div class="board-heading">
+    <div>
+      <div class="eyebrow">The protocol</div>
+      <h1>How the pool <em>works</em>, in full.</h1>
+      <p>The model, what a default does, the score, and the parameters of pool v2. The live site reads these from the contracts on Robinhood Chain. This page states the same design.</p>
+    </div>
+  </div>
+
+  <section class="sec" id="model">
+    <div class="head"><div class="no">§ 01</div><div><h2>Model</h2><p>One pool of USDG. Every line is vouched by one backer, out of that backer's own stake.</p></div></div>
+    <div class="prose">
+      <p>A lender deposits USDG and holds shares. Lenders receive 50% of every base fee. A root sponsor locks USDG as shares and vouches lines, each one starting only with the agent owner's signed consent. An agent is an ERC-8004 identity. It borrows within its line, from $5 to $500, for 1 to 30 days, at 1% per 30 days. The fee is fixed at borrow.</p>
+      <p>On repayment the fee splits 50% to lenders, 25% to the sponsor, and 25% to the reserve. A backer may ask a premium of at most 2% per 30 days, and only up to what the owner agreed. That premium goes to the sponsor.</p>
+      <p>Withdrawals do not wait for agents to repay, because a line is never bigger than its backer's stake. Within 7 days of a deposit, a 0.5% fee stays with the lenders who stay. The contracts are experimental and have had no outside audit. Capital is at risk.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="default">
+    <div class="head"><div class="no">§ 02</div><div><h2>What a default does</h2><p>Four transitions. The last one is a default, and the backer pays.</p></div></div>
+    <div class="mono-block">borrow   principal leaves the pool, fee locked in the backer's stake
+repay    principal + fee return, fee is split
+grace    three days after the due date
+default  backer's shares burn for principal + unpaid fee
+         agent score goes to 0, for good
+         that owner's other agents cannot borrow again</div>
+    <p class="help">A stock line instead keeps tokens worth what is owed plus 20%, and sends the rest back. A $PRIORS stake burns in the same transaction: three quarters of the owner's stake.</p>
+  </section>
+
+  <section class="sec" id="score">
+    <div class="head"><div class="no">§ 03</div><div><h2>Score</h2><p>A pure function of the on-chain record, from 0 to 1000. Nobody sets it by hand.</p></div></div>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Term</th><th>Weight</th><th>What it counts</th></tr></thead>
+      <tbody>
+        <tr><td>Dollar-days repaid</td><td>up to 400</td><td>Principal times time it was actually held</td></tr>
+        <tr><td>Qualified loans</td><td>up to 200</td><td>Loans held at least 7 days</td></tr>
+        <tr><td>Backing at risk</td><td>up to 150</td><td>Someone's money standing behind the agent</td></tr>
+        <tr><td>Time enrolled</td><td>up to 150</td><td>Days the agent has been in the pool</td></tr>
+        <tr><td>Recourse honored</td><td>up to 100</td><td>Carried from v1. Pool v2 has no recourse</td></tr>
+        <tr><td>Vouched defaults</td><td>−75 each</td><td>A default the backer had to pay</td></tr>
+      </tbody>
+    </table></div>
+    <p class="help">A default sets the score to 0. Short, small loans add little. Money held for weeks adds the most. Score v2 also counts x402 income and late repayments.</p>
+  </section>
+
+  <section class="sec" id="invariants">
+    <div class="head"><div class="no">§ 04</div><div><h2>Invariants</h2><p>Properties the tests check. Passing them does not prove the contracts safe.</p></div></div>
+    <div class="terms2">
+      <div><span>Solvency</span><b>No loan loss is meant to reach lenders</b></div>
+      <div><span>Cash</span><b>USDG covers liquidity, reserve, and unclaimed fees</b></div>
+      <div><span>Exposure</span><b>An agent never owes more than its backer vouched</b></div>
+    </div>
+  </section>
+
+  <section class="sec" id="params">
+    <div class="head"><div class="no">§ 05</div><div><h2>Parameters</h2><p>The live site reads getParams() from the deployed pool. These are the public settings this preview describes.</p></div></div>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Parameter</th><th>Value</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Fee</td><td>1% / 30 days</td><td>Fixed when the agent borrows</td></tr>
+        <tr><td>Fee split</td><td>50 / 25 / 25</td><td>Lenders, sponsor, reserve</td></tr>
+        <tr><td>Loan size</td><td>$5 to $500</td><td>Within the vouched line</td></tr>
+        <tr><td>Term</td><td>1 to 30 days</td><td>10 days at most on a $PRIORS line</td></tr>
+        <tr><td>Early withdrawal</td><td>0.5%</td><td>Within 7 days, kept by other lenders</td></tr>
+        <tr><td>First treasury line</td><td>$5</td><td>Needs a refundable 5 USDG bond</td></tr>
+        <tr><td>Chain</td><td>4663</td><td>Robinhood Chain</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="sec" id="treasury">
+    <div class="head"><div class="no">§ 06</div><div><h2>$PRIORS and the treasury</h2></div></div>
+    <div class="prose">
+      <p>$PRIORS launched on Robinhood Chain, paired with USDG. An owner can stake it behind an agent on the seat vault. The vault's own USDG backs the line. A first treasury line is $5, after a 5 USDG bond. The bond comes back once the agent has no line, no open loan, and no default, and at least 4 days have passed. The treasury is topped up in USDG by hand.</p>
+      <p>Seat tiers start at $25 to $50 with no record required, then step through $100, $175, $300, and $500. A step needs time at the previous tier and counted loans. Part of what the protocol earns buys $PRIORS now. Placing that behind lines is next.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="addresses">
+    <div class="head"><div class="no">§ 09</div><div><h2>Addresses</h2><p>Robinhood Chain, chain id 4663. Confirm every address on the live site and the explorer before you trust it.</p></div></div>
+    <div class="ca">
+      <span class="ca-k">$PRIORS</span>
+      <code>0xedbf91223639800bcd5756815caf908df3b890be</code>
+      <button type="button" data-copy="0xedbf91223639800bcd5756815caf908df3b890be">Copy</button>
+      <a class="ca-x" href="https://robinhoodchain.blockscout.com/token/0xedbf91223639800bcd5756815caf908df3b890be" target="_blank" rel="noopener">Explorer ↗</a>
+    </div>
+  </section>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+</body>
+</html>

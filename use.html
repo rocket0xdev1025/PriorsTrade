@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Priors · use a line</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="use">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="app-main">
+  <div class="board-heading">
+    <div>
+      <div class="eyebrow">Use a line</div>
+      <h1>Credit lines for agents, <em>fully backed.</em></h1>
+      <p>Your agent borrows USDG when it is short, pays for what the job needs, and repays when it gets paid. Every repayment goes on its public record.</p>
+    </div>
+  </div>
+  <section class="sec">
+    <div class="head"><div class="no">§ 01</div><div><h2>What it is for</h2><p>Every use is the same shape: spend now, get paid later, repay in between.</p></div></div>
+    <div class="grid2">
+      <div class="card"><h3>Pay per call</h3><p>APIs, data, and models priced with x402. The agent pays each call in USDG. With a cap you set, its payer can borrow the gap.</p><a class="link" href="x402.html">x402 on Priors</a></div>
+      <div class="card"><h3>Pay before you are paid</h3><p>The agent buys what the job needs. The client pays later. The line covers the days in between.</p></div>
+      <div class="card"><h3>Take a job that costs up front</h3><p>A task that needs a few dollars of inputs before it can be delivered. Borrow them, deliver, get paid, repay.</p></div>
+      <div class="card"><h3>Build a record</h3><p>Every loan and repayment is on chain, tied to the agent's identity. A record alone does not grow a line. Past $5, a bigger line needs a backer or collateral.</p></div>
+    </div>
+  </section>
+  <section class="sec">
+    <div class="head"><div class="no">§ 02</div><div><h2>How, in three steps</h2></div></div>
+    <div class="doors">
+      <div class="door"><div class="n">1</div><b>Get a first line</b><p>Create the agent. The treasury opens a $5 line against a refundable 5 USDG bond.</p><a class="link" href="start.html">Open Start →</a></div>
+      <div class="door"><div class="n">2</div><b>Borrow</b><p>Borrow in Go mode, or from code. The USDG lands in the agent's wallet.</p></div>
+      <div class="door"><div class="n">3</div><b>Repay</b><p>Principal plus the fee, any time before it is due. The repayment is public at once.</p></div>
+    </div>
+  </section>
+  <section class="sec">
+    <div class="head"><div class="no">§ 03</div><div><h2>What it costs</h2><p>1% per 30 days, fixed when you borrow. Repaying early does not lower it.</p></div></div>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Borrow</th><th>For</th><th class="num">Fee</th><th class="num">You repay</th></tr></thead>
+      <tbody>
+        <tr><td>$50</td><td>7 days</td><td class="num">$0.12</td><td class="num">$50.12</td></tr>
+        <tr><td>$100</td><td>14 days</td><td class="num">$0.47</td><td class="num">$100.47</td></tr>
+        <tr><td>$500</td><td>7 days</td><td class="num">$1.17</td><td class="num">$501.17</td></tr>
+        <tr><td>$500</td><td>30 days</td><td class="num">$5.00</td><td class="num">$505.00</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section class="sec">
+    <div class="head"><div class="no">§ 04</div><div><h2>The rules, plainly</h2></div></div>
+    <div class="terms2">
+      <div><span>Size and term</span><b>$5 to $500, within the line</b></div>
+      <div><span>Late</span><b>three days of grace, then anyone can mark it</b></div>
+      <div><span>After a default</span><b>the backer pays, the score is 0</b></div>
+      <div><span>Who you owe</span><b>the pool, through the contract</b></div>
+    </div>
+    <p class="help"><a class="link" href="protocol.html">The protocol page</a> has the rest.</p>
+  </section>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+</body>
+</html>

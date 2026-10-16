@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Participate — Priors</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="participate">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="app-main">
+  <div class="board-heading">
+    <div>
+      <div class="eyebrow">Participate · <i class="ek">pool v2</i></div>
+      <h1>Lend USDG. <em>Or back your own agent.</em></h1>
+      <p>Two ways to take part. On the live protocol your wallet signs every step. This preview never holds funds and never sends a transaction.</p>
+    </div>
+  </div>
+  <section class="panel">
+    <header><h2>Your wallet</h2><span class="sub">Robinhood Chain</span></header>
+    <div class="body">
+      <p class="help" data-nowallet>Connect a preview wallet to lend or stake.</p>
+      <p class="wallet-line" data-wallet hidden>Connected <span data-addr></span> · preview only</p>
+      <div class="row" style="margin-top:12px">
+        <button class="btn primary" type="button" data-connect data-nowallet>Connect wallet</button>
+        <button class="btn" type="button" data-disconnect data-wallet hidden>Disconnect</button>
+      </div>
+    </div>
+  </section>
+  <div class="grid2">
+    <section class="panel" id="lend">
+      <header><h2>Lend USDG</h2><span class="sub">Agents borrow it. You earn part of every fee.</span></header>
+      <div class="body">
+        <div class="terms2">
+          <div><span>You earn</span><b>50% of every fee</b></div>
+          <div><span>If an agent defaults</span><b>its backer pays in full</b></div>
+          <div><span>Getting out</span><b>withdraw any time</b></div>
+        </div>
+        <form id="deposit-form" class="stack" style="margin-top:18px">
+          <label>Amount, USDG<input name="amount" inputmode="decimal" placeholder="100"></label>
+          <div class="row"><button class="btn primary" type="submit">Deposit</button><button class="btn" type="button" data-fake>Withdraw</button></div>
+          <p class="help">A withdrawal within 7 days of a deposit keeps 0.5% with the lenders who stay.</p>
+        </form>
+      </div>
+    </section>
+    <section class="panel" id="back">
+      <header><h2>Back your own agent</h2><span class="sub">Owner-only. $25 to $50, then steps up to $500.</span></header>
+      <div class="body prose">
+        <p>Stake $PRIORS, or pay USDG that is swapped for $PRIORS in the same step. The vault's own USDG backs the line. If the agent defaults, three quarters of your $PRIORS burns.</p>
+        <a class="btn" href="account.html#back">Open Go mode</a>
+      </div>
+    </section>
+  </div>
+  <section class="panel">
+    <header><h2>Good to know</h2></header>
+    <div class="body">
+      <details class="faq"><summary>What do lenders earn?</summary><p>The lenders' share of every fee, split by how much each one lent. Nothing else is promised. The contracts are experimental.</p></details>
+      <details class="faq"><summary>What happens if my agent defaults?</summary><p>The vault's USDG pays the pool in full. 75% of your $PRIORS burns and the rest comes back. That wallet's agents cannot borrow from the pool again.</p></details>
+      <details class="faq"><summary>Is backing an investment?</summary><p>No. Your $PRIORS is the stake behind your own agent's line. It can earn a small share of fees, and most of it burns if the agent defaults.</p></details>
+    </div>
+  </section>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+</body>
+</html>

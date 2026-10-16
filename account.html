@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your account — Priors</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="account">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="app-main">
+  <div class="board-heading">
+    <div>
+      <div class="eyebrow">Go mode · <i class="ek">local account</i></div>
+      <h1>Your account.</h1>
+      <p>Lend, back an agent, or open a stock line. On the live app you sign in with Google and Priors pays the gas. Here the wallet is a preview.</p>
+    </div>
+    <div class="aside"><button class="btn primary" type="button" data-connect data-nowallet>Connect wallet</button><span class="wallet-line" data-wallet hidden><span data-addr></span></span></div>
+  </div>
+  <div class="account"><div class="wrap" style="padding-inline:0;max-width:none">
+    <div class="cell"><div class="k">Lent</div><div class="v" id="ac-lent">$0</div><div class="s">USDG in the pool</div></div>
+    <div class="cell"><div class="k">Fees</div><div class="v good">$0</div><div class="s">your share, preview</div></div>
+    <div class="cell"><div class="k">Lines backed</div><div class="v" id="ac-lines">0</div><div class="s">$PRIORS or USDG</div></div>
+    <div class="cell"><div class="k">Stock lines</div><div class="v" id="ac-stocks">0</div><div class="s">tokens still yours if repaid</div></div>
+  </div></div>
+  <div class="tabs" role="tablist" style="margin-top:28px">
+    <button type="button" data-tab="overview" class="on">Overview</button>
+    <button type="button" data-tab="lend" id="lend">Lend</button>
+    <button type="button" data-tab="back" id="back">Back</button>
+    <button type="button" data-tab="stocks">Stocks</button>
+  </div>
+  <div data-panel="overview" class="on">
+    <p class="prose">Nothing is held for you. A line exists only when a backer has locked money for it. Repayments stay on the agent's public record.</p>
+    <div class="actions" style="margin-top:18px">
+      <a class="btn" href="start.html">Create an agent</a>
+      <a class="btn" href="live.html">Browse agents</a>
+    </div>
+  </div>
+  <div data-panel="lend">
+    <form id="deposit-form" class="stack">
+      <label>Deposit USDG<input name="amount" inputmode="decimal" placeholder="250"></label>
+      <button class="btn primary" type="submit">Deposit</button>
+      <p class="help">Lenders receive 50% of every fee. A default is paid by the backer, not from your principal, if the contracts behave as designed. Lent USDG is still at risk.</p>
+    </form>
+  </div>
+  <div data-panel="back">
+    <form class="stack" id="back-form">
+      <label>Agent<select id="back-agent"></select></label>
+      <label>Stake, $PRIORS<input name="stake" inputmode="decimal" value="1000"></label>
+      <button class="btn primary" type="submit">Back this agent</button>
+      <p class="help">A line opens at $25 to $50 when the stake is large enough. A default burns three quarters of it. Owner-only on the live vault.</p>
+    </form>
+    <p class="help" id="back-result" hidden></p>
+  </div>
+  <div data-panel="stocks">
+    <p>Deposit stock tokens and draw USDG against them.</p>
+    <a class="btn" href="stocks.html" style="margin-top:14px">Open a stock line</a>
+  </div>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+<script>
+  document.getElementById("back-agent").innerHTML = AGENTS.filter((a) => !a.defaults).map((a) => `<option value="${a.id}">${a.name} · #${a.id}</option>`).join("");
+  const showLent = () => {
+    const lent = Number(sessionStorage.getItem("priors-lent") || 0);
+    document.getElementById("ac-lent").textContent = "$" + lent.toLocaleString("en-US");
+  };
+  const lines = Number(sessionStorage.getItem("priors-lines") || 0);
+  showLent();
+  document.getElementById("ac-lines").textContent = String(lines);
+  document.getElementById("deposit-form").addEventListener("submit", () => {
+    const n = Number(new FormData(document.getElementById("deposit-form")).get("amount"));
+    if (n > 0 && sessionStorage.getItem("priors-wallet")) {
+      const next = Number(sessionStorage.getItem("priors-lent") || 0) + n;
+      sessionStorage.setItem("priors-lent", String(next));
+      showLent();
+    }
+  });
+  document.getElementById("back-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!sessionStorage.getItem("priors-wallet")) { toast("Connect a preview wallet first."); return; }
+    const next = lines + 1;
+    sessionStorage.setItem("priors-lines", String(next));
+    document.getElementById("ac-lines").textContent = String(next);
+    const sel = document.getElementById("back-agent");
+    const out = document.getElementById("back-result");
+    out.hidden = false;
+    out.textContent = "A $25 preview line is noted for " + sel.selectedOptions[0].text + ". No $PRIORS moved.";
+  });
+  if (location.hash === "#lend" || location.hash === "#ac-lend") document.querySelector("[data-tab=lend]").click();
+  if (location.hash === "#back" || location.hash === "#ac-seats") document.querySelector("[data-tab=back]").click();
+  if (location.hash === "#ac-stocks") document.querySelector("[data-tab=stocks]").click();
+</script>
+</body>
+</html>

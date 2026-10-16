@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open a stock line — Priors</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="stocks">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="app-main">
+  <div class="board-heading">
+    <div>
+      <div class="eyebrow">Stock lines</div>
+      <h1>Deposit your tokens. <em>Draw USDG.</em></h1>
+      <p>Keep the stock tokens. The vault holds them while the line is open and sends them back when you repay. This page is a local walkthrough and does not move tokens.</p>
+    </div>
+  </div>
+  <section class="panel">
+    <header><h2>Open a line</h2><span class="sub">Preview · nothing is deposited</span></header>
+    <div class="body">
+      <p class="help" data-nowallet>Connect a preview wallet, then pick a token.</p>
+      <p class="wallet-line" data-wallet hidden>Connected <span data-addr></span></p>
+      <form class="stack" id="stock-form" style="margin-top:16px">
+        <label>Token
+          <select name="token" id="stock-token"></select>
+        </label>
+        <label>Tokens to deposit<input name="qty" inputmode="decimal" value="2" required></label>
+        <label>Days<input name="days" inputmode="numeric" value="14" min="1" max="30" required></label>
+        <p class="help" id="stock-quote">A line opens at the token's loan-to-value, capped at $500.</p>
+        <div class="row">
+          <button class="btn" type="button" data-connect data-nowallet>Connect wallet</button>
+          <button class="btn primary" type="submit">Deposit and open the line</button>
+        </div>
+      </form>
+      <p class="help" id="stock-result" hidden></p>
+    </div>
+  </section>
+  <section class="panel">
+    <header><h2>Then draw</h2></header>
+    <div class="body prose">
+      <p>Once the line is open you can borrow up to it for 1 to 30 days. The fee is 1% per 30 days, fixed when you borrow, and it is due in full even if you repay early. Repay, close the line, and the tokens come back.</p>
+      <a class="link" href="borrow.html">Read the risks →</a>
+    </div>
+  </section>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+<script>
+  const sel = document.getElementById("stock-token");
+  sel.innerHTML = STOCKS.map((s) => `<option value="${s.sym}" ${s.open ? "" : "disabled"}>${s.sym} · ${s.name} · ${s.ltv}%${s.open ? "" : " · paused"}</option>`).join("");
+  const quote = () => {
+    const s = STOCKS.find((x) => x.sym === sel.value);
+    const qty = Number(document.querySelector("[name=qty]").value) || 0;
+    const line = Math.min(500, s.value * qty * s.ltv / 100);
+    document.getElementById("stock-quote").textContent = qty + " " + s.sym + " at a sample $" + s.value.toFixed(2) + " opens a line of about $" + line.toFixed(2) + ".";
+  };
+  sel.addEventListener("change", quote);
+  document.querySelector("[name=qty]").addEventListener("input", quote);
+  quote();
+  document.getElementById("stock-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!sessionStorage.getItem("priors-wallet")) { toast("Connect a preview wallet first."); return; }
+    const out = document.getElementById("stock-result");
+    out.hidden = false;
+    out.textContent = "Line noted in this preview. No token moved. " + document.getElementById("stock-quote").textContent;
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Grove — Priors</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="live">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="app-main">
+  <div class="board-heading">
+    <div>
+      <div class="eyebrow">The living ledger</div>
+      <h1>Every agent leaves <em>a record.</em></h1>
+      <p>Explore the sponsors, repayments, and capital behind the agents in this preview. On the live site each tree is read from Robinhood Chain.</p>
+    </div>
+    <div class="aside">A leaf per repaid loan. A burnt tree per default.</div>
+  </div>
+  <section class="panel">
+    <header><h2>The grove</h2><span class="sub">A tree per agent. The treasury sits among them.</span></header>
+    <div class="body grove" id="grove"></div>
+  </section>
+  <section class="panel">
+    <header><h2>Agents</h2><span class="sub" id="agent-count">—</span></header>
+    <div class="body">
+      <form class="search" id="lookup">
+        <input name="q" id="agent-q" type="search" placeholder="Search by name or id" aria-label="Search agents">
+        <button class="btn" type="submit">Open</button>
+      </form>
+      <div class="tblwrap"><table>
+        <thead><tr><th class="num">Id</th><th>Agent</th><th class="num">Score</th><th class="num">Line</th><th class="num">Repaid</th><th class="num">Defaults</th><th>Backer</th></tr></thead>
+        <tbody id="agent-rows"></tbody>
+      </table></div>
+    </div>
+  </section>
+  <section class="panel">
+    <header><h2>Activity</h2><span class="sub">Newest first</span></header>
+    <div class="body tblwrap"><table>
+      <thead><tr><th>Block</th><th>Entry</th><th>Agent</th><th>Detail</th><th class="num">USDG</th></tr></thead>
+      <tbody id="activity-rows"></tbody>
+    </table></div>
+  </section>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+<script>
+  document.getElementById("activity-rows").innerHTML = LOANS.map((r) => {
+    const a = AGENTS.find((x) => x.name === r.agent);
+    const href = a ? `agent.html?id=${a.id}` : "live.html";
+    return `<tr><td>${r.block}</td><td>${r.kind}</td><td><a class="link" href="${href}">${r.agent}</a></td><td>${r.detail}</td><td class="num">${r.amt}</td></tr>`;
+  }).join("");
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>x402 — Priors</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="x402">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="app-main">
+  <div class="board-heading">
+    <div>
+      <div class="eyebrow">x402 · <i class="ek">new</i></div>
+      <h1>Pay per call. <em>Borrow the gap.</em></h1>
+      <p>An agent pays an API in USDG as it calls it. If the wallet is short, a line can cover the call inside caps the owner sets, then the agent repays.</p>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>Pay</h3><p>Each call has a price. The agent pays it from its wallet in USDG. No invoice, no account at the API.</p></div>
+    <div class="card"><h3>Get paid</h3><p>A service can charge the same way. The payment is the request. Settlement is the receipt.</p></div>
+    <div class="card"><h3>Borrow the gap</h3><p>When the wallet is short, the payer can draw on the agent's line, up to the cap, and repay when income lands.</p></div>
+  </div>
+  <section class="panel">
+    <header><h2>A call, priced</h2></header>
+    <div class="body">
+      <form class="stack" id="x402-form">
+        <label>Call price, USDG<input name="price" value="0.03" inputmode="decimal"></label>
+        <label>Wallet balance, USDG<input name="bal" value="0.01" inputmode="decimal"></label>
+        <label>Line still open, USDG<input name="line" value="5" inputmode="decimal"></label>
+        <button class="btn primary" type="submit">Price this call</button>
+      </form>
+      <p id="x402-out" class="help"></p>
+    </div>
+  </section>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+<script>
+  document.getElementById("x402-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const d = new FormData(e.target);
+    const price = Number(d.get("price"));
+    const bal = Number(d.get("bal"));
+    const line = Number(d.get("line"));
+    const gap = Math.max(0, price - bal);
+    const out = document.getElementById("x402-out");
+    if (gap === 0) out.textContent = "The wallet covers $" + price.toFixed(2) + ". Nothing is borrowed.";
+    else if (gap <= line) out.textContent = "Borrow $" + gap.toFixed(2) + " from the line, pay the call, and repay $" + gap.toFixed(2) + " plus the fee for the days it is open.";
+    else out.textContent = "The gap is $" + gap.toFixed(2) + ", which is more than the open line. The call does not go through.";
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Priors · credit for AI agents</title>
+<meta name="description" content="Priors lends USDG to ERC-8004 AI agents on Robinhood Chain. Every line is fully backed, and every repayment is public.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="home">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<div class="dateline"><div class="wrap">
+  <span>USDG credit for ERC-8004 agents</span>
+  <span>Robinhood Chain · open protocol · no custody of your agent</span>
+  <a href="account.html#back">Back your agent with $PRIORS →</a>
+</div></div>
+<main id="main">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="kicker">Credit for AI agents</p>
+      <h1>Reviews can be faked. <em>Repaid loans can't.</em></h1>
+      <p class="lede">Priors lends USDG to AI agents on Robinhood Chain. Every line is backed by someone's own money, which pays the loan in full if the agent doesn't repay. Every repayment is public, so any app can check an agent before it deals with one.</p>
+      <div class="actions">
+        <a class="btn primary" href="start.html">Create an agent</a>
+        <a class="link" href="account.html">Open your account →</a>
+        <a class="link" href="live.html">Browse agents →</a>
+      </div>
+    </div>
+    <figure class="tree">
+      <canvas id="bonsai" aria-label="A voxel bonsai with one leaf for every repayment in the preview ledger"></canvas>
+      <figcaption><b id="leafcount">Reading the ledger…</b><span>One leaf for each loan repaid.</span></figcaption>
+    </figure>
+  </div>
+</section>
+<div class="account" aria-label="The pool">
+  <div class="wrap">
+    <div class="cell"><div class="k">Repaid</div><div class="v" id="s-repaid">—</div><div class="s" id="s-repaid-sub">—</div></div>
+    <div class="cell"><div class="k">Loans written</div><div class="v" id="s-loans">—</div><div class="s" id="s-loans-sub">—</div></div>
+    <div class="cell"><div class="k">Agents</div><div class="v" id="s-agents">—</div><div class="s" id="s-agents-sub">—</div></div>
+    <div class="cell"><div class="k">Lost by lenders</div><div class="v good" id="s-bad">—</div><div class="s" id="s-bad-sub">—</div></div>
+  </div>
+</div>
+<div class="wrap source">Local preview of the ledger. On <a class="link" href="https://priors.trade/" target="_blank" rel="noopener">priors.trade</a> these figures are read live from the pool. Short loans count, and add little to a score (<a class="link" href="protocol.html#score">how the score works</a>) · <a class="link" href="protocol.html#addresses">contract addresses</a></div>
+
+<section class="chapter" id="how">
+  <div class="wrap">
+    <div class="chead">
+      <div class="no">No. 1</div>
+      <div><h2>How a line opens</h2><p>Someone has to put money behind an agent before it can borrow. After that, its record is what it has paid back.</p></div>
+    </div>
+    <div class="howto">
+      <div class="diagram" aria-hidden="true">
+        <svg viewBox="0 0 290 420" fill="none" stroke-width="1.2">
+          <g data-step="1" class="on"><rect class="box" x="30" y="16" width="200" height="74"/><text class="t1" x="130" y="46" text-anchor="middle">the backer</text><text class="t2" x="130" y="70" text-anchor="middle">stakes USDG, pays in full</text><path class="ar" d="M130 90 V166"/><path class="hd" d="M124 160 L130 170 L136 160"/><text class="lb" x="142" y="134">vouches a line</text></g>
+          <g data-step="2"><rect class="box" x="30" y="172" width="200" height="74"/><text class="t1" x="130" y="202" text-anchor="middle">the agent</text><text class="t2" x="130" y="226" text-anchor="middle">borrows within it, pays a fee</text><path class="ar" d="M110 326 V252"/><path class="hd" d="M104 258 L110 248 L116 258"/><text class="lb" x="12" y="290">draws</text></g>
+          <g data-step="3"><path class="ar g" d="M150 250 V320"/><path class="hd g" d="M144 314 L150 324 L156 314"/><text class="lb g" x="162" y="290">repays + fee</text><rect class="box" x="30" y="328" width="200" height="74"/><text class="t1" x="130" y="358" text-anchor="middle">the pool</text><text class="t2" x="130" y="382" text-anchor="middle">lenders get 50% of the fee</text></g>
+          <g data-step="4" class="loss"><path class="ar r" d="M230 42 H262 V376 H236"/><path class="hd r" d="M242 370 L232 376 L242 382"/><text class="lb r" transform="translate(276 150) rotate(90)">if it defaults, the stake pays</text></g>
+        </svg>
+      </div>
+      <div>
+        <div class="stepl on" tabindex="0"><div class="n">i.</div><div><h3>Someone backs the agent</h3><p>The treasury, a sponsor or a Priors vault locks USDG in the pool for the whole line. Anyone can register an agent, but only a backer can give it a line.</p><span class="aside">The treasury's first line is $5.</span></div></div>
+        <div class="stepl" tabindex="0"><div class="n">ii.</div><div><h3>The agent borrows</h3><p>For a day, a week or a month, up to its line, at 1% per 30 days. A quarter of each fee goes to its backer.</p></div></div>
+        <div class="stepl" tabindex="0"><div class="n">iii.</div><div><h3>It repays</h3><p>Each repayment is written on chain and adds to the agent's public record. Past the treasury's $5 line, a bigger line needs a sponsor's USDG or collateral from the owner, such as stock tokens or $PRIORS.</p></div></div>
+        <div class="stepl" tabindex="0"><div class="n">iv.</div><div><h3>If it doesn't repay, its backer pays</h3><p>The backer's stake pays the loan back in full, so a default is not paid from lenders' USDG. So far, lenders have lost nothing.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter night" id="book">
+  <div class="wrap">
+    <div class="chead"><div class="no">No. 2</div><div><h2>Latest loans</h2><p>A preview of the ledger. The live site reads this from the chain.</p></div></div>
+    <div class="logwrap">
+      <header><span>Block</span><span>Entry</span><span>Agent</span><span>Detail</span><span id="log-count">—</span></header>
+      <div class="log" id="log"></div>
+    </div>
+    <div class="after"><a class="link" href="live.html">See all activity →</a><a class="link" href="protocol.html">Read the protocol →</a></div>
+  </div>
+</section>
+
+<section class="chapter" id="doors">
+  <div class="wrap">
+    <div class="chead"><div class="no">No. 3</div><div><h2>Three ways to use Priors</h2></div></div>
+    <div class="ways">
+      <div class="way">
+        <div class="who">If you run an agent</div>
+        <h3>Get a first line</h3>
+        <p>Create an agent with an ERC-8004 identity, get a $5 line from the treasury, and borrow when it needs working capital.</p>
+        <ul><li><b>$5</b> first line</li><li>Fully backed, plus a refundable 5 USDG bond</li><li>Its record is public, on chain</li></ul>
+        <a class="btn" href="start.html">Create an agent</a>
+      </div>
+      <div class="way">
+        <div class="who">If you hold $PRIORS</div>
+        <h3>Back your agent</h3>
+        <p>An agent's owner can put their own $PRIORS behind its line in Go mode, or pay in USDG that is swapped for $PRIORS in the same step. If the agent defaults, three quarters of it burns.</p>
+        <ul><li>A line of <b>$25</b> to $50 to start, up to $500 in steps</li><li>A share of the fees it pays, in USDG</li><li>Owner-only for now</li></ul>
+        <a class="btn" href="account.html#back">Back your agent</a>
+        <a class="link sm" href="participate.html">Root sponsors: stake USDG from your own wallet →</a>
+      </div>
+      <div class="way">
+        <div class="who">If you lend</div>
+        <h3>Fund the pool</h3>
+        <p>Deposit USDG into the pool agents borrow from. Lenders get 50% of every fee. Every line is fully backed, so a default is paid from its backer's USDG, not yours. The contracts are experimental, so lent USDG is still at risk.</p>
+        <ul><li><b>50%</b> of every fee to lenders</li><li>Withdrawals never wait for agents to repay</li><li>A 0.5% fee on a withdrawal within 7 days of a deposit, kept by the other lenders</li></ul>
+        <a class="btn" href="account.html#lend">Lend USDG</a>
+        <a class="link sm" href="participate.html">Builder mode: lend from your own wallet →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter token" id="priors">
+  <div class="wrap">
+    <div> 
+      <h2>$PRIORS as collateral</h2>
+      <p>An agent's owner can put their own $PRIORS behind its line. If the agent defaults, three quarters of it burns and the rest goes back to the owner.</p>
+      <div class="ca" aria-label="$PRIORS token contract address">
+        <span class="ca-k">$PRIORS</span>
+        <code>0xedbf…90be</code>
+        <button type="button" data-copy="0xedbf91223639800bcd5756815caf908df3b890be">Copy</button>
+        <a class="ca-x" href="https://robinhoodchain.blockscout.com/token/0xedbf91223639800bcd5756815caf908df3b890be" target="_blank" rel="noopener">Explorer ↗</a>
+      </div>
+    </div>
+    <div class="terms2">
+      <div><span>Your own $PRIORS</span><b>opens a $25 to $50 line</b></div>
+      <div><span>A default</span><b>burns three quarters of it</b></div>
+      <div><span>The treasury</span><b>is topped up in USDG, by hand</b></div>
+      <div><span>Part of what Priors earns</span><b>buys $PRIORS now; placing it behind lines is next</b></div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+</body>
+</html>

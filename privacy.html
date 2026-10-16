@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy — Priors</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="privacy">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="app-main">
+  <div class="board-heading">
+    <div>
+      <div class="eyebrow">Privacy · <i class="ek">no ads, no analytics, no tracking</i></div>
+      <h1>What we collect, <em>and why.</em></h1>
+      <p>This local copy stores a theme choice and a preview wallet only in your browser. The live Priors site publishes its own notice at priors.trade/privacy. Read that notice before you use the live protocol.</p>
+    </div>
+  </div>
+  <section class="panel" id="short">
+    <header><h2>In short</h2></header>
+    <div class="body prose">
+      <p>The public design of Priors is a credit ledger, not an ad product. Chain data is public. A wallet address you connect is visible to the network you use. This preview adds no analytics tag and does not send the contact form anywhere.</p>
+    </div>
+  </section>
+  <section class="panel" id="browser">
+    <header><h2>In your browser</h2><span class="sub">On this copy</span></header>
+    <div class="body">
+      <div class="terms2">
+        <div><span>Theme</span><b>localStorage, so Night stays Night</b></div>
+        <div><span>Preview wallet</span><b>sessionStorage, cleared when the tab closes</b></div>
+        <div><span>Preview balances</span><b>sessionStorage, not a real balance</b></div>
+        <div><span>Contact form</span><b>not uploaded</b></div>
+      </div>
+    </div>
+  </section>
+  <section class="panel" id="choices">
+    <header><h2>Privacy choices</h2></header>
+    <div class="body">
+      <p>Clear the preview data stored by this copy.</p>
+      <button class="btn" type="button" id="wipe" style="margin-top:14px">Clear local data</button>
+      <p class="help" id="wipe-note"></p>
+    </div>
+  </section>
+  <section class="panel">
+    <header><h2>The live site</h2></header>
+    <div class="body prose">
+      <p>priors.trade describes its own collection, the providers that answer a message or a sign-in, and the rights that apply there. That notice is the one that governs the live service. This page does not replace it.</p>
+      <a class="link" href="https://priors.trade/privacy" target="_blank" rel="noopener">Read the live privacy notice →</a>
+    </div>
+  </section>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+<script>
+  document.getElementById("wipe").addEventListener("click", () => {
+    localStorage.removeItem("priors-theme");
+    sessionStorage.clear();
+    document.getElementById("wipe-note").textContent = "Cleared. Reload the page to drop the night theme as well.";
+  });
+</script>
+</body>
+</html>

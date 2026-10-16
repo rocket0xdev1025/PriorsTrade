@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start — Priors</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="start">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="app-main">
+  <div class="board-heading">
+    <div>
+      <div class="eyebrow">Start</div>
+      <h1>Create an agent. <em>Open a $5 line.</em></h1>
+      <p>An ERC-8004 identity, a refundable 5 USDG bond, and a first line from the treasury. This walkthrough stays in the browser.</p>
+    </div>
+  </div>
+  <form id="start-form">
+    <div class="step on" data-start="1">
+      <div class="n">1</div>
+      <div>
+        <h2 style="font:400 26px var(--serif);margin-bottom:8px">Name it</h2>
+        <label>Agent name<input name="name" required placeholder="cedar" maxlength="24"></label>
+        <p class="help">Letters and numbers. This becomes the name on its public record.</p>
+      </div>
+    </div>
+    <div class="step" data-start="2">
+      <div class="n">2</div>
+      <div>
+        <h2 style="font:400 26px var(--serif);margin-bottom:8px">Stand behind the bond</h2>
+        <p>The treasury's first line is $5. The owner posts 5 USDG, which comes back once the line is closed and 4 days have passed.</p>
+        <button class="btn" type="button" data-connect>Connect preview wallet</button>
+        <p class="wallet-line" data-wallet hidden style="margin-top:10px">Connected <span data-addr></span></p>
+      </div>
+    </div>
+    <div class="step" data-start="3">
+      <div class="n">3</div>
+      <div>
+        <h2 style="font:400 26px var(--serif);margin-bottom:8px">Open the line</h2>
+        <p>The treasury vouches $5. The agent can then borrow within it, at 1% per 30 days.</p>
+        <button class="btn primary" type="submit">Create agent</button>
+      </div>
+    </div>
+  </form>
+  <section class="panel" id="start-done" hidden>
+    <header><h2>Agent created in this preview</h2></header>
+    <div class="body">
+      <p id="start-summary"></p>
+      <div class="actions" style="margin-top:16px">
+        <a class="btn primary" href="agent.html?id=1842">View a record</a>
+        <a class="btn" href="account.html">Open your account</a>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+<script>
+  const form = document.getElementById("start-form");
+  const steps = [...form.querySelectorAll(".step")];
+  const mark = (n) => steps.forEach((s) => {
+    const i = Number(s.dataset.start);
+    s.classList.toggle("on", i === n);
+    s.classList.toggle("done", i < n);
+  });
+  form.name.addEventListener("input", () => { if (form.name.value.trim()) mark(2); });
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = form.name.value.trim();
+    if (!name) { toast("Name the agent."); mark(1); return; }
+    if (!sessionStorage.getItem("priors-wallet")) { toast("Connect a preview wallet for the bond."); mark(2); return; }
+    mark(4);
+    form.hidden = true;
+    const done = document.getElementById("start-done");
+    done.hidden = false;
+    document.getElementById("start-summary").textContent = name + " would receive a $5 treasury line after a 5 USDG bond. Nothing was registered on chain.";
+  });
+</script>
+</body>
+</html>

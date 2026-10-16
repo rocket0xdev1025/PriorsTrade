@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Request an invite — Priors</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="invite">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="app-main">
+  <div class="board-heading">
+    <div>
+      <div class="eyebrow">Seats · <i class="ek">treasury v4</i></div>
+      <h1>Get your agent <em>its first line.</em></h1>
+      <p>A new agent gets a $5 line once someone stands behind it. Pick the way that fits you. An agent's owner can back it, and no one has to approve it.</p>
+    </div>
+  </div>
+  <div class="doors">
+    <div class="door"><div class="n">01</div><b>Post a bond</b><p>Lock 5 USDG and get an invite. It comes back once the line is closed, at least 4 days after you post it.</p><span class="tag">Best for your own new agent</span></div>
+    <div class="door"><div class="n">02</div><b>Back it with USDG</b><p>Stake your own USDG behind an agent, with its owner's consent. You earn 25% of its fees.</p><span class="tag">Best for sponsors</span></div>
+    <div class="door"><div class="n">03</div><b>Back it with $PRIORS</b><p>Put your own $PRIORS behind your agent, or pay USDG that is swapped in the same step. A $25 to $50 line to start.</p><span class="tag">Owner-only for now</span></div>
+  </div>
+  <section class="panel" id="bond">
+    <header><h2>Step 1 · Post the bond</h2><span class="sub"><b>5 USDG</b>, locked on chain. It comes back.</span></header>
+    <div class="body grid2">
+      <div class="prose">
+        <p><b>01.</b> Lock 5 USDG from the wallet that owns the agent.</p>
+        <p><b>02.</b> Prove you own the agent. The invite comes straight back.</p>
+        <p><b>03.</b> Take the bond back once the line is closed, no loan is open, and 4 days have passed. A default forfeits it.</p>
+      </div>
+      <form class="stack" data-fake>
+        <p class="wallet-line" data-wallet>Connected <span data-addr></span></p>
+        <p class="help" data-nowallet>Connect a preview wallet to walk through the bond.</p>
+        <label>Agent id<input name="id" inputmode="numeric" placeholder="1842" required></label>
+        <div class="row">
+          <button class="btn" type="button" data-connect data-nowallet>Connect wallet</button>
+          <button class="btn primary" type="submit">Post the 5 USDG bond</button>
+        </div>
+      </form>
+    </div>
+  </section>
+  <section class="panel">
+    <header><h2>Step 2 · Get the invite</h2><span class="sub">The rules are checked on chain. Nothing is stored on this site.</span></header>
+    <div class="body">
+      <a class="btn" href="start.html">Create the agent first</a>
+      <p class="help">Treasury v4 opens the line when the wallet that owns the agent signs its consent.</p>
+    </div>
+  </section>
+  <section class="panel">
+    <header><h2>Back an agent with USDG</h2><span class="sub">You choose the agents and get 25% of their fees.</span><span class="pill">Live</span></header>
+    <div class="body prose">
+      <p>Get a sponsor id, stake $10 or more, then vouch any line up to your stake. The owner has to sign consent. If the agent defaults, your stake pays the loan in full, fee included.</p>
+      <a class="link" href="participate.html">Open the sponsor actions →</a>
+    </div>
+  </section>
+  <section class="panel">
+    <header><h2>Good to know</h2></header>
+    <div class="body">
+      <details class="faq"><summary>Why does a new agent need someone behind it?</summary><p>A new agent has no record yet, so a backer locks USDG for the whole line. If the agent defaults, that USDG pays the loan. On a treasury line the owner also posts a refundable 5 USDG bond.</p></details>
+      <details class="faq"><summary>What does the first line cost?</summary><p>The loan fee is 1% per 30 days, fixed when the agent borrows. The bond is separate and comes back.</p></details>
+      <details class="faq"><summary>When do I get my bond back?</summary><p>Once the line is closed, no loan is open, and at least 4 days have passed since you posted it. A default sends the bond to the Safe.</p></details>
+      <details class="faq"><summary>Is there a limit on invites?</summary><p>Each account gets two first lines automatically. The treasury also caps new lines each week. If the room is used up, try again next week.</p></details>
+    </div>
+  </section>
+</main>
+<div id="foot-root"></div>
+<script src="js/site.js"></script>
+</body>
+</html>
