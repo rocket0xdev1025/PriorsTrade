@@ -1,4 +1,4 @@
-const PRIORS = "TBA";
+const PRIORS = "0x9c1861a1953a692e3254661be5e39e483b92b56d";
 
 const AGENTS = [
   { id: 1842, name: "cedar", repaid: 22, loans: 24, defaults: 0, line: 50, score: 712, backer: "Seat vault", leaves: 22 },
