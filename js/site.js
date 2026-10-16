@@ -94,7 +94,7 @@ function footer() {
       <a href="stocks.html">Stocks</a><a href="borrow.html">Borrow on stocks</a><a href="protocol.html">The protocol</a><a href="updates.html">Dev log</a>
     </div>
     <div><h4>Elsewhere</h4>
-      <a class="xlink" href="https://x.com/priors_trade" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@priors_trade</a>
+      <a class="xlink" href="https://x.com/PriorsAgents" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@PriorsAgents</a>
       <a href="https://github.com/priors-agents/priors" target="_blank" rel="noopener">GitHub</a>
       <a href="contact.html">Contact</a>
       <a href="privacy.html">Privacy</a>
